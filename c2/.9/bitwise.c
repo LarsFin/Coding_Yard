@@ -26,6 +26,12 @@ int main()
 
     printf("%u\n", n);
 
+    // what happens if you right shift off the bit set?
+    n = 0b0100; // 4
+    n >>= 3;    // 0b0000 (0)
+
+    printf("%u\n", n);
+
     // ^ (XOR)
     n =     0b1000; // 8
     n ^=    0b0010; // 0b1010 (10)
@@ -41,7 +47,14 @@ int main()
     // invert certain number of bits
 
     n = 0b1001;  // 9
-    n ^= 15;     // 0b0110 6
+    n ^= 15;     // 0b0110 (6)
+
+    printf("%u\n", n);
+
+    // subtraction
+
+    n = 0b1010; // 10
+    n -= 1;     // 0b1001 (9)
 
     printf("%u\n", n);
 }
