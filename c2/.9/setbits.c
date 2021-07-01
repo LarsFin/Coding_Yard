@@ -12,7 +12,14 @@ int main()
 
     x = setbits(x, 4, 2, y);
 
-    printf("RESULT:\t%u", x); // x should be 0b100101 (37)
+    printf("RESULT:\t%u\n", x); // x should be 0b100101 (37)
+
+    x = 45; // 0b101101
+    y = 15; // 0b001111
+
+    x = setbits(x, 5, 1, y);
+
+    printf("RESULT:\t%u\n", x); // x should be 0b111101 (61)
 }
 
 unsigned setbits(unsigned x, unsigned p, unsigned n, unsigned y)
@@ -22,15 +29,12 @@ unsigned setbits(unsigned x, unsigned p, unsigned n, unsigned y)
     m -= 1;                // 0b0111 (7)
     y &= m;                // gets the last n bits from y!
 
-    // mask for zero-ing bits in x
-    m = p - 1;
-    m <<= (p - n);
-
-    // apply mask to zero bits in range of position p for n bits
-    x ^= m;
-
     // left shift y to have correct value in relation to position p
     y <<= (p - n);
+
+    // clear all bits from position p in x for n digits
+    while (n-- > 0)
+        x &= ~(1 << --p);
 
     return x + y;
 }
