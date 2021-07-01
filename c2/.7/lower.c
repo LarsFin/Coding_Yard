@@ -11,7 +11,7 @@ int main()
 
 char lower(char c)
 {
-    if (c >= 'A' || c <= 'Z')
+    if (c >= 'A' && c <= 'Z')
         return c + 'a' - 'A';
     else
         return c;
