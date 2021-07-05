@@ -7,6 +7,8 @@
 #define MAX_SIZE 1000
 
 void expand(char[], char[]);
+int writei(int i, char s[], int sp);
+int power(int, int);
 
 int main()
 {
@@ -42,7 +44,11 @@ void expand(char s1[], char s2[])
         for (u = 1, lb = 0; li >= 0; li--, u *= 10)
         {
             if (s1[li] == '-')
+            {
                 lb *= -1;
+                li--;
+                break;
+            }
 
             if (!isdigit(s1[li]))
                 break;
@@ -65,11 +71,10 @@ void expand(char s1[], char s2[])
             ub += (s1[ri] - '0') * s;
         }
 
-        j = li;
+        j -= (i - li);
+        i = ri - 1;
         k = lb;
         ki = (ub > lb ? 1 : -1);
-
-        printf("start of printing %d\n", j);
 
         // append numbers till upper bound is exceeded
         while (k != (ub + ki))
@@ -82,21 +87,7 @@ void expand(char s1[], char s2[])
             if (k != lb)
                 s2[j++] = ',';
 
-            if (k < 0)
-                s2[j++] = '-';
-            else if (k == 0)
-                s2[j++] = '0';
-
-            u = 1;
-
-            while ((kc = k / u) != 0)
-            {
-                printf("%d", kc);
-                u *= 10;
-                s2[j++] = kc + '0';
-            }
-
-            printf("\t");
+            j = writei(k, s2, j);
 
             k += ki;
         }
@@ -104,3 +95,55 @@ void expand(char s1[], char s2[])
 
     s2[j] = '\0';
 }
+
+int writei(int i, char s[], int sp)
+{
+    if (i == 0)
+    {
+        s[sp++] = '0';
+        return sp;
+    }
+    
+    if (i < 0)
+    {
+        i *= -1;
+        s[sp++] = '-';
+    }
+
+    int n = 0; // number of digits in integer to parse
+    int d = 0; // number to write to string
+    int x = i; // integer i used for determining digit count
+    int u;     // the result of the current iteration of n as the power of 10
+    int r;     // remainder from last mod
+    
+    while ((x /= 10) != 0)
+        n++;
+
+    while (n > 0)
+    {
+        u = power(10, n);
+        r = i % u;
+        d = (i - r) / u;
+        s[sp++] = '0' + d;
+        i = r;
+        n--;
+    }
+
+    s[sp++] = '0' + i;
+
+    return sp;
+}
+
+int power(int b, int p)
+{
+    if (p == 0)
+        return 1;
+
+    int x = 1;
+
+    for (int i = 0; i < p; i++)
+        x *= b;
+
+    return x;
+}
+
