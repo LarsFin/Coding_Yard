@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <time.h>
+#include "../../tools/track.c"
 
 // experiment: two functions; suma and sumb
 // both functions calculate the sum of integers in an array and return it
@@ -13,17 +13,6 @@
 // tested a few times, sumb is marginally faster
 
 #define SIZE 20
-
-#define TIME(relays, process) {\
-    clock_t start, end;\
-    double elapsed;\
-    start = clock();\
-    for (int i = 0; i < relays; i++)\
-        process;\
-    end = clock();\
-    elapsed = (double)(end - start) / CLOCKS_PER_SEC;\
-    printf(#process ":\t%f\n", elapsed);\
-}
 
 int suma(int[]);
 int sumb(int *);
